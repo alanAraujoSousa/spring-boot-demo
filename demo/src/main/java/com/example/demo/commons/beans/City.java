@@ -1,15 +1,14 @@
 package com.example.demo.commons.beans;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class City {
+public class City implements Serializable {
 
     @Id
     @GeneratedValue
@@ -24,6 +23,9 @@ public class City {
     @NotNull(message = "The state of city cannot be null")
     @Column(nullable = false)
     private String state;
+
+    @OneToMany(mappedBy = "city")
+    private List<Client> clients;
 
     public Long getId() {
         return id;
@@ -47,6 +49,14 @@ public class City {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    public List<Client> getClients() {
+        return clients;
+    }
+
+    public void setClients(List<Client> clients) {
+        this.clients = clients;
     }
 
     @Override

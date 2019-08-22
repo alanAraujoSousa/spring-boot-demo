@@ -3,11 +3,12 @@ package com.example.demo.commons.beans;
 import com.example.demo.commons.enums.Gender;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
 @Entity
-public class Client {
+public class Client implements Serializable {
 
     @Id
     @GeneratedValue
@@ -21,6 +22,8 @@ public class Client {
     @Temporal(TemporalType.TIMESTAMP)
     private Date birthDate;
 
+    @ManyToOne
+    @JoinColumn(name = "city_id", nullable = false)
     private City city;
 
     public Long getId() {

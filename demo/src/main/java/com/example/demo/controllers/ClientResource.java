@@ -22,7 +22,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-@RestController("client")
+@RestController
+@RequestMapping("/client")
 public class ClientResource {
 
     @Autowired
@@ -43,7 +44,7 @@ public class ClientResource {
         return this.clientDAO.findById(id).orElseThrow(() -> new ClientNotFoundByIdException(id));
     }
 
-    @GetMapping("search/byName")
+    @GetMapping("/search/byName")
     public Client retrieveByName(@RequestParam("name") String name) {
         return this.clientDAO.findByName(name).orElseThrow(() -> new ClientNotFoundByNameException(name));
     }
