@@ -3,6 +3,8 @@ package com.example.demo.commons.beans;
 import com.example.demo.commons.enums.Gender;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
@@ -14,9 +16,14 @@ public class Client implements Serializable {
     @GeneratedValue
     private Long id;
 
+    @NotNull(message = "The name of client cannot be null")
+    @Size(min = 3, max = 30)
+    @Column(nullable = false)
     private String name;
 
+    @NotNull(message = "The gender of client cannot be null")
     @Enumerated
+    @Column(nullable = false)
     private Gender gender;
 
     @Temporal(TemporalType.TIMESTAMP)

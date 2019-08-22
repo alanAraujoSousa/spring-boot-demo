@@ -31,6 +31,11 @@ public class CityResource {
 
     }
 
+    @GetMapping
+    public List<City> retrieveAll() {
+        return this.cityDAO.findAll();
+    }
+
     @GetMapping("search/byName")
     public City retrieveByName(@RequestParam("name") String name) {
 

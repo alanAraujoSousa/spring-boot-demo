@@ -39,6 +39,11 @@ public class ClientResource {
         return ResponseEntity.created(location).build();
     }
 
+    @GetMapping
+    public List<Client> retrieveAll() {
+        return this.clientDAO.findAll();
+    }
+
     @GetMapping("/{id}")
     public Client retrieve(@PathVariable long id) {
         return this.clientDAO.findById(id).orElseThrow(() -> new ClientNotFoundByIdException(id));
@@ -59,8 +64,12 @@ public class ClientResource {
 
         Client client = this.clientDAO.findById(id).orElseThrow(() -> new ClientNotFoundByIdException(id));
 
-        try {
-            fields.forEach((k, v) -> ReflectionUtils.setField(ReflectionUtils.findField(Client.class, k), client, v));
+        try { // Should be in a service, but for demo it's ok!
+            fields.forEach((k, v) -> {
+                Field field = ReflectionUtils.findField(Client.class, k);
+                field.setAccessible(true);
+                ReflectionUtils.setField(field, client, v);
+            });
         } catch (Exception e) {
             throw new InvalidParametersToUpdateClientException(fields.keySet());
         }

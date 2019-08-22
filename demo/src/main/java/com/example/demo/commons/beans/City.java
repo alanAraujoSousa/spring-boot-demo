@@ -1,5 +1,7 @@
 package com.example.demo.commons.beans;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -24,7 +26,8 @@ public class City implements Serializable {
     @Column(nullable = false)
     private String state;
 
-    @OneToMany(mappedBy = "city")
+    @OneToMany(mappedBy = "city", fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Client> clients;
 
     public Long getId() {
