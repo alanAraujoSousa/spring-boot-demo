@@ -2,12 +2,9 @@ package com.example.demo.controllers;
 
 import com.example.demo.commons.beans.City;
 import com.example.demo.commons.exceptions.CityNotFoundByNameException;
-import com.example.demo.commons.exceptions.CityNotFoundByStateException;
 import com.example.demo.dao.ICityDAO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -24,7 +21,7 @@ public class CityResource {
 
     @PostMapping
     public ResponseEntity<Object> create(@Valid @RequestBody City city) {
-        City savedCity = cityDAO.save(city);
+        City savedCity = this.cityDAO.save(city);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(savedCity.getId()).toUri();
@@ -36,7 +33,7 @@ public class CityResource {
     @GetMapping("search/byName")
     public City retrieveByName(@RequestParam("name") String name) {
 
-        Optional<City> city = cityDAO.findByName(name);
+        Optional<City> city = this.cityDAO.findByName(name);
 
         if (!city.isPresent())
             throw new CityNotFoundByNameException(name);
@@ -46,7 +43,7 @@ public class CityResource {
 
     @GetMapping("search/byState")
     public List<City> retrieveByState(@RequestParam("state") String state) {
-        return cityDAO.findByState(state);
+        return this.cityDAO.findByState(state);
     }
 
 }
